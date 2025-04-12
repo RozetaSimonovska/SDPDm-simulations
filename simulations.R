@@ -238,8 +238,8 @@ res.b <- res.r <- matrix(NA,
                          nrow = length(W)*length(times), 
                          ncol = (1+length(b)+2))
 ###########################
-nc <- 1
-registerDoParallel(nc) 
+ncrs <- 1
+# registerDoParallel(ncrs) 
 ind <- 0
 start_time <- Sys.time()
 for(i in 1:length(W)){
@@ -247,7 +247,7 @@ for(i in 1:length(W)){
     ind <- ind + 1
     print(ind)
     s[[ind]] <- sim(seedstart = 12345+(ind)*(nsimulations+1)*11,
-                    ncores = nc,
+                    ncores = ncrs,
                     nsim = nsimulations,
                     Time = times[j],
                     Wmat = W[[i]],
