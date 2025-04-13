@@ -232,7 +232,7 @@ times <- c(10,50,100)
 r <- 0.4; b <- c(1.4,-0.8,1.1,-0.5); d <- c(0.3,-0.2)
 ###
 s <- vector("list",length(W)*length(times))
-nsimulations <- 2000
+nsimulations <- 1000
 nvec <- tvec <- rep(NA, length(W)*length(times))
 res.b <- res.r <- matrix(NA, 
                          nrow = length(W)*length(times), 
