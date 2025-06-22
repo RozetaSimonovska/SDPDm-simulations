@@ -59,10 +59,30 @@ mod2<-SDPDm(formula = fm,
             W = W,
             LYtrans = TRUE,
             dynamic = TRUE,
-            tlaginfo = list(ind = NULL, tl = T, stl = T))
+            tlaginfo = list(ind = NULL, tl = TRUE, stl = TRUE))
 
 imp<-impactsSDPDm(mod1)
 summary(imp)
+
+#############################################################
+### Spatial weights matrices                              ###
+library("sf")
+ger <- st_read(system.file(dsn = "shape/GermanyNUTS3.shp",
+                           package = "SDPDmod"),
+               quiet = TRUE)	
+data(gN3dist, package = "SDPDmod")
+
+sn <- ger[which(substr(ger[["NUTS_CODE"]],1,3)=="DED"),]
+sn_dist <- gN3dist[which(substr(rownames(gN3dist),1,3)=="DED"),
+                   which(substr(colnames(gN3dist),1,3)=="DED")]
+
+W_1on<-mOrdNbr(sf_pol=sn, m=1)
+W_2on<-mOrdNbr(sf_pol=sn, m=2)
+W_len_sh<-SharedBMat(sf_pol=sn)
+W_nn<-mNearestN(distMat=sn_dist, m=5)
+W_inv<-InvDistMat(distMat=sn_dist, distCutOff=100000, powr=2)
+W_exp<-ExpDistMat(distMat=sn_dist, distCutOff=100000, expn=0.001)
+W_dd<-DDistMat(distMat=sn_dist, distCutOff=100000, powr=3) 
 
 ################################################################
 ####
